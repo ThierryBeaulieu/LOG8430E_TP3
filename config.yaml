@@ -1,0 +1,34 @@
+test:
+  workers:
+	type: local
+	number: 1
+  rounds:
+	- label: query
+  	txNumber: 100
+  	rateControl:
+    	type: fixed-rate
+    	opts:
+      	tps: 100
+  	workload:
+    	module: benchmarks/samples/fabric/marbles/query.js
+	- label: init
+  	txNumber: 900
+  	rateControl:
+    	type: fixed-rate
+    	opts:
+      	tps: 100
+  	workload:
+    	module: benchmarks/samples/fabric/marbles/init.js
+monitors:
+  resource:
+  - module: docker
+	options:
+  	interval: 5
+  	containers:
+  	- all
+  	charting:
+    	bar:
+      	metrics: [Memory(avg), Traffic In, Traffic Out, CPU%(avg)]
+    	polar:
+      	metrics: [all]
+
